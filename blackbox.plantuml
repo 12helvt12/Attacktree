@@ -1,0 +1,43 @@
+# PlantUML Editor
+
+
+@startuml
+skinparam monochrome true
+skinparam defaultTextAlignment center
+
+' Root node
+agent "User Data" as goal
+
+' Sub goals
+agent "Abuse business logic" as bizlogic
+agent "Brute Force" as bruteforce
+agent "Front end vulnerability" as frontend
+
+goal --> bizlogic
+goal --> bruteforce
+goal --> frontend
+
+
+agent "Check for injections" as getinjection
+frontend --> getinjection
+agent "sqli" as sqli
+agent "improper input validation" as inputval
+agent "xss" as xss
+agent "csrf" as csrf 
+getinjection --> sqli
+getinjection --> inputval
+getinjection --> xss
+getinjection --> csrf 
+
+interface "and" as and
+inputval --> and
+
+agent "Authentication Bypass" as authbypass
+agent "No luck" as luck
+and --> authbypass
+and --> luck
+
+' Abstraction (not going to model that)
+cloud "Database" as another
+authbypass --> another
+
