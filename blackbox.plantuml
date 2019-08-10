@@ -11,7 +11,7 @@ agent "User Data" as goal
 ' Sub goals
 agent "Abuse business logic" as bizlogic
 agent "Brute Force" as bruteforce
-agent "Front end vulnerability" as frontend
+agent "Authentication Bypass" as frontend
 
 goal --> bizlogic
 goal --> bruteforce
@@ -32,12 +32,13 @@ getinjection --> csrf
 interface "and" as and
 inputval --> and
 
-agent "Authentication Bypass" as authbypass
+agent "Front end vulnerability" as authbypass
 agent "No luck" as luck
 and --> authbypass
 and --> luck
 
 ' Abstraction (not going to model that)
-cloud "Database" as another
+cloud "attacker" as another
 authbypass --> another
+
 
