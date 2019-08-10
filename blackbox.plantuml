@@ -11,34 +11,40 @@ agent "User Data" as goal
 ' Sub goals
 agent "Abuse business logic" as bizlogic
 agent "Brute Force" as bruteforce
-agent "Authentication Bypass" as frontend
+agent "Gain DB access" as db
 
-goal --> bizlogic
-goal --> bruteforce
-goal --> frontend
+goal --> db
 
 
-agent "Check for injections" as getinjection
-frontend --> getinjection
+
 agent "sqli" as sqli
-agent "improper input validation" as inputval
+agent "Gain access to remote api" as remoteapi
 agent "xss" as xss
 agent "csrf" as csrf 
-getinjection --> sqli
-getinjection --> inputval
-getinjection --> xss
-getinjection --> csrf 
+db --> sqli
+db --> remoteapi
+ 
 
 interface "and" as and
-inputval --> and
+remoteapi --> and
 
-agent "Front end vulnerability" as authbypass
-agent "No luck" as luck
+agent "Authentication Bypass" as authbypass
+agent "DNS Rebinding Attack" as dns
+agent "Brute Force" as bruteforce
+agent "Gain DB access" as db
 and --> authbypass
-and --> luck
+and --> dns
 
 ' Abstraction (not going to model that)
 cloud "attacker" as another
 authbypass --> another
-
-
+dns --> another
+bruteforce --> another
+sqli --> another
+remoteapi --> bruteforce
+remoteapi --> xss 
+remoteapi --> bizlogic 
+remoteapi --> csrf 
+xss --> another
+csrf --> another
+bizlogic --> another
